@@ -1,1 +1,7 @@
-angular django-rest-framework app BOOKFARM
+#BOOKFARM
+#Libraries/Frameworks Used
+Django
+Django-REST-Framework 
+BeautifulSoup
+Requests
+
