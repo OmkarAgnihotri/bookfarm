@@ -1,1 +1,0 @@
-angular django-rest-framework app BOOKFARM
