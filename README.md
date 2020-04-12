@@ -8,5 +8,5 @@ Django-REST-Framework
 BeautifulSoup  
 Requests  
 # Features/Description
-Exchange books with piers
+Exchange books with piers  
 Books are dynamically added to database as you search by scraping AMAZON
