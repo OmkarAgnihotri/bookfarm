@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserAuthService } from '../services/user-auth.service';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -10,11 +10,16 @@ import { CookieService } from 'ngx-cookie-service';
 export class NavComponent implements OnInit {
   username = ''
   userID:number;
+  displayDropDown = false;
   constructor(private userService : UserAuthService,private cookie : CookieService){}
 
   ngOnInit() {
     this.username = this.cookie.get('name');
     this.userID = +this.cookie.get('id')
+  }
+
+  toggleNavbar(){
+    this.displayDropDown = !this.displayDropDown;
   }
   
   logout(){

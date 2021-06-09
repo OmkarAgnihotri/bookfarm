@@ -1,3 +1,8 @@
+<div class="container">
+    <div class="alert alert-primary m-3" role="alert">
+        <fa-icon [icon]="['fas','info-circle']" size = 'xl'></fa-icon><span>&nbsp;&nbsp; All your past trades are listed here.</span>
+    </div>
+</div>
 <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
 <div class="container pt-4" *ngIf="!isLoading">
     <div class="row pt-5" *ngIf="trades.length === 0">

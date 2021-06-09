@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BooksService } from '../services/books.service';
 import { CookieService } from 'ngx-cookie-service';
 import { User, Book } from '../requests/requests.component';
+import { Observable, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -33,21 +34,44 @@ export class CartComponent implements OnInit {
       
       let books:Book[]=[];
 
-      for (let index = 0; index < item.books.length; index++) {
-        const bookID = item.books[index];
+      // for (let index = 0; index < item.books.length; index++) {
+      //   const bookID = item.books[index];
 
-        let book = <Book>await this.booksService.getBookById(bookID);
+      //   let book = <Book>await this.booksService.getBookById(bookID);
         
-          books.push(book);  
-      }
+      //     books.push(book);  
+      // }
 
-      this.result.push({
-        user:user,
-        books:books
-      });
+      this.getBooks(item.books)
+      .subscribe(
+        (bookList:Book[]) => {
+            for (let index = 0; index < bookList.length; index++) {
+              const book = bookList[index];
+              books.push(book);
+            }
+
+            this.result.push({
+              user:user,
+              books:books
+            });
+        }
+      )
+
+      
     }
 
     this.isLoading = false
+  }
+
+  getBooks(bookList:number[]){
+    let books:Observable<any>[]=[];
+
+    for (let index = 0; index < bookList.length; index++) {
+      const id = bookList[index];
+      books.push(this.booksService.getBookById(+id))
+    }
+
+    return forkJoin(books);
   }
 
   async sendRequest(books:Book[],user2,index){

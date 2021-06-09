@@ -14,6 +14,9 @@ import { TradeDetailsComponent } from './trade-details/trade-details.component';
 import { FontAwesomeModule,FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from "@fortawesome/free-regular-svg-icons";
+
+import { fab } from '@fortawesome/free-brands-svg-icons'
+
 import { CookieService } from 'ngx-cookie-service';
 import { NavComponent } from './nav/nav.component';
 import { AddToCollectionsComponent } from './collections/add-to-collections/add-to-collections.component';
@@ -24,10 +27,12 @@ import { CartComponent } from './cart/cart.component';
 import { RequestsContainerComponent } from './requests-container/requests-container.component';
 import { RequestsReceivedComponent } from './requests-received/requests-received.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
+import { HomeComponent } from './home/home.component';
 
 
 
 const appRoutes:Routes  = [
+    { path:'',component:HomeComponent},
     { path:'login',component:LoginComponent},    //localhost:4200/login
     { path:'register',component:RegisterComponent},
     { path:'trades',component:TradesComponent,canActivate:[AuthGaurd]},
@@ -59,7 +64,8 @@ const appRoutes:Routes  = [
     CartComponent,
     RequestsContainerComponent,
     RequestsReceivedComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -75,6 +81,6 @@ const appRoutes:Routes  = [
 export class AppModule {
 
     constructor(public library : FaIconLibrary){
-        library.addIconPacks(fas,far);
+        library.addIconPacks(fas,far,fab);
     }
  }

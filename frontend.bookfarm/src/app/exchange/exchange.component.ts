@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BooksService } from '../services/books.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Book, User } from '../requests/requests.component';
+import { Observable, forkJoin } from 'rxjs';
 
 export class Collection{
   id?:number;
@@ -69,33 +70,57 @@ export class ExchangeComponent implements OnInit {
 
   async init(collection:Collection[]){
     this.isLoading = true
+
     let temp:{
       user?:User
       book?:Book;
     }[]=[]
 
+    let users:User[]=[];
+    
     for (let index = 0; index < collection.length; index++) {
       const item = collection[index];
 
       let user:User = <User>await this.booksService.getUserById(+item.user)
         
-
-      
-
-      let book:Book = <Book>await this.booksService.getBookById(+item.book)
-        
-      temp.push({
-        user:user,
-        book:book
-      })
+      users.push(user)
     }
 
-    this.isLoading = false
-    this.collection=temp
-    this.all = this.collection
-    this.disabled = false;
-    this.spin = false
+    let books:Book[]=[];
+
+    this.getBooks(collection)
+    .subscribe(
+      (bookList:Book[]) => {
+        for (let index = 0; index < bookList.length; index++) {
+          const book = bookList[index];
+          books.push(book)
+        }
+
+        for (let index = 0; index < users.length&&index < books.length; index++) {
+          const user = users[index];
+          const book = books[index];
+    
+          temp.push({
+            user:user,
+            book:book
+          });
+          
+        }
+
+            
+        this.isLoading = false
+        this.collection=temp
+        this.all = this.collection
+        this.disabled = false;
+        this.spin = false
+    
+      }
+    )
+
+   
   }
+
+
 
   addToCart(user2,book,index){
     let user1 = +this.cookie.get('id');
@@ -108,6 +133,17 @@ export class ExchangeComponent implements OnInit {
       }
     )
 
+  }
+
+  getBooks(collection:Collection[]){
+    let books:Observable<any>[]=[];
+
+    for (let index = 0; index < collection.length; index++) {
+      const item = collection[index];
+      books.push(this.booksService.getBookById(+item.book))
+    }
+
+    return forkJoin(books);
   }
 
   refresh(){

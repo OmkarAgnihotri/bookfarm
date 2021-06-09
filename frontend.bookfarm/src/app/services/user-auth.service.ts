@@ -11,6 +11,9 @@ import { resolve } from 'url';
 })
 export class UserAuthService {
   private api = 'https://bookfarm.herokuapp.com';
+
+  // private api = ' http://127.0.0.1:8000';
+
   error = new Subject<HttpErrorResponse>();
 
   isLoggedIn = new Subject<boolean>();

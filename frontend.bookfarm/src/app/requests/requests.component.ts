@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BooksService } from '../services/books.service';
 import { CookieService } from 'ngx-cookie-service';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { Observable, forkJoin } from 'rxjs';
 
 export class Request{
     request_id?:number;
@@ -86,34 +87,29 @@ export class RequestsComponent implements OnInit {
         
         let user:User = <User>await this.booksService.getUserById(+requestObj.user)
                   
-        for (let index = 0; index < requestObj.requested_books.length; index++) {
+        
+        
+        let books:Book[] = <Book[]>await this.getBooks(requestObj.requested_books)
 
-            const item = requestObj.requested_books[index];
+        for (let index = 0; index < books.length; index++) {
+          const book = books[index];
+          if(requestObj.requested_books[index].isApproved === true)
+            approved_books1.push(book)
 
-            let book:Book = <Book>await this.booksService.getBookById(+item.book)
-
-            
-
-            if(item.isApproved === true){
-              approved_books1.push(book)
-            }
-            books1.push(book)
+          books1.push(book);
         }
-
-       
+        
         
       let requested_books:RequestedBook[] = <RequestedBook[]>await this.booksService.fetchResponse(+requestObj.request_id)
             
-      for (let index = 0; index < requested_books.length; index++) {
+      books = <Book[]>await this.getBooks(requested_books)
 
-        const item = requested_books[index];
-       
-        let book:Book = <Book>await this.booksService.getBookById(+item.book)
-        book.isApproved = item.isApproved
-        if(item.isApproved === true){
+      for (let index = 0; index < books.length; index++) {
+        const book = books[index];
+        if(requested_books[index].isApproved === true)
           approved_books2.push(book)
-        }
-        books2.push(book)
+
+        books2.push(book);
       }
 
       const confirmationStatus:ConfirmationStatus = <ConfirmationStatus>await this.booksService.getConfirmationStatus(+requestObj.request_id);
@@ -135,7 +131,20 @@ export class RequestsComponent implements OnInit {
       }
       this.isLoading = false;
     }
-      
+    
+     getBooks(bookList:RequestedBook[]){
+      if(bookList.length === 0)
+        return new Promise((resolve,reject) => { resolve([])})
+      let books:Observable<any>[]=[];
+  
+      for (let index = 0; index < bookList.length; index++) {
+        const item = bookList[index];
+        books.push(this.booksService.getBookById(+item.book))
+      }
+  
+      return forkJoin(books).toPromise();
+    }
+  
   
 
   showDetails(id){

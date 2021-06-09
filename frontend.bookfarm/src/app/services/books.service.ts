@@ -10,6 +10,8 @@ import { Book } from '../requests/requests.component';
 })
 export class BooksService {
   private apiDomain = 'https://bookfarm.herokuapp.com';
+
+  // private apiDomain = ' http://127.0.0.1:8000';
   
   constructor(private http : HttpClient,private cookie : CookieService,
               private route : ActivatedRoute) { }
@@ -79,7 +81,7 @@ export class BooksService {
         'Authorization':'token '+this.cookie.get('token')
       })
     })
-    .toPromise()
+    
   }
 
   addToRequestedBooks(books,request){
@@ -166,6 +168,7 @@ export class BooksService {
       })
     })
     .toPromise()
+    
   }
 
   fetchResponse(request){

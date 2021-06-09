@@ -1,5 +1,12 @@
 <div class="container">
     <div class="row">
+        <div class="col">
+            <div class="alert alert-primary m-3" role="alert">
+                <fa-icon [icon]="['fas','info-circle']" size = 'xl'></fa-icon><span>&nbsp;&nbsp;Search for the book you want do add to your collection for selling / exchange.</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col p-2">
             <div class="card">
                 <div class="card-body p-4 text-center">
@@ -17,6 +24,13 @@
                         </button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="isLoading">
+        <div class="col">
+            <div class="alert alert-warning m-3" role="alert">
+                <fa-icon [icon]="['fas','frown']" size = 'xl'></fa-icon><span>&nbsp;&nbsp;Your search results will be here in a short while ! We are sorry for the delay.</span>
             </div>
         </div>
     </div>
