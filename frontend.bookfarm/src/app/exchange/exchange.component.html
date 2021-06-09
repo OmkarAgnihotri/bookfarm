@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-primary m-3" role="alert">
+                <fa-icon [icon]="['fas','info-circle']" size = 'xl'></fa-icon><span>&nbsp;&nbsp;Search the book you want to buy / exchange or find it from the list.</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col p-2">
+            <div class="card">
+                <div class="card-body p-5 text-center">
+                    <input type="text" class="form-control" placeholder="enter title or author" (keyup)='fetchCollection($event)' [(ngModel)]="searchstr">
+                    <div class="pt-3">
+                        <button class="btn btn-warning" [ngClass]="{'disabled': disabled}" (click)="refresh()"><fa-icon [icon]="['fas', 'sync-alt']" [spin]="spin" class="text-white"></fa-icon></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+    <div class="row" *ngIf="!isLoading">
+        <div class="col-lg-2 col-md-3 col-sm-4 col-6 p-2" *ngFor="let item of collection;let i=index">
+            <div class="card">
+                <img class="card-img-top" src="{{ item.book.img_src }}" style="border: 0px;max-height: 25vh;min-height: 25vh">
+                <div class="card-body px-2 py-1" style="min-height: 55px;">
+                  <div class="title">{{ item.book.title }}</div>
+                </div>
+                <div class="user text-info px-2 py-1">
+                    <a  [routerLink]="['/collections',item.user.id]"  >
+                        <fa-icon [icon]="['far','user-circle']" class="text-info"></fa-icon><span> {{ item.user.first_name }}</span>
+                    </a>
+                </div>
+                <ng-template [ngIf]="!toggle[i]">
+                    <div class="p-2 text-center w-100" style="min-height: 50px;">
+                        <button class="btn btn-outline-info btn-sm" (click)="addToCart(item.user.id,item.book.id,i)">add to cart</button>
+                    </div>
+                </ng-template>
+                <ng-template [ngIf]="toggle[i]">
+                    <div class="p-2 text-center w-100" style="min-height: 50px;">
+                        <fa-icon [icon]="['fas','check-circle']" size="2x" class="text-success"></fa-icon>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>

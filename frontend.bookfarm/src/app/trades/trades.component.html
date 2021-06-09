@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="alert alert-primary m-3" role="alert">
+        <fa-icon [icon]="['fas','info-circle']" size = 'xl'></fa-icon><span>&nbsp;&nbsp; All your past trades are listed here.</span>
+    </div>
+</div>
+<app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+<div class="container pt-4" *ngIf="!isLoading">
+    <div class="row pt-5" *ngIf="trades.length === 0">
+        <div class="col text-center p-5">
+            NO TRADES
+        </div>
+    </div>
+    <div class="row justify-content-center" *ngIf="trades.length !== 0">
+        <div class="col-md-8 col-sm-12 p-2" *ngFor="let trade of trades">
+            <div class="card" (click)='showDetails(trade.id,trade.user)'>
+                <div class="card-body">
+                    <div class="float-left text-center">
+                        <fa-icon [icon]="['far','user-circle']" size="2x"></fa-icon>
+                        <div class="user-name">You</div>
+                        <div class="">{{trade.books_received}} >>></div>
+                    </div>
+                    <div class="float-right text-center">
+                        <fa-icon [icon]="['far','user-circle']" size="2x"></fa-icon>
+                        <div class="user-name">{{trade.user}}</div>
+                        <div class=""><<< {{trade.books_given}} </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

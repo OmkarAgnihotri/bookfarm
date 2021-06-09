@@ -1,0 +1,64 @@
+<app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-primary m-3" role="alert">
+                <fa-icon [icon]="['fas','info-circle']" size = 'xl'></fa-icon><span>&nbsp;&nbsp;Proceeding further will place the request for the books to respective user.</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container" *ngIf="!isLoading">
+    
+    <div class="row justify-content-center" *ngIf="result.length == 0">
+        <div class="col text-center p-4">
+            Cart is empty
+        </div>
+    </div>
+    <div class="row justify-content-center" *ngIf="result.length > 0">
+        <div class="col-lg-8 col-md-10 col-sm-12 col-12 p-2"  *ngFor="let item of result;let i=index">
+            <div class="card" *ngIf="!requested[i]">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col user-info">
+                            <div class="user-icon p-2">
+                                <fa-icon [icon]="['far','user-circle']"  size="3x" class="text-warning"></fa-icon>
+                            </div>
+                            <div class="username p-2"> {{ item.user.first_name+' '+item.user.last_name }}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-3 col-md-4 col-sm-4 col-10 p-2" *ngFor="let book of item.books;let j=index">
+                            <ng-template [ngIf]="!toggle[j]">
+                                <div class="card">
+                                    <img class="card-img-top" src="{{ book.img_src }}" style="border: 0px;max-height: 20vh;min-height: 20vh">
+                                    <div class="card-body p-1" style="min-height: 60px;">
+                                      <p class="title">{{ book.title }}</p>
+                                    </div>
+                                    <div class="p-2 text-center">
+                                            <!-- <button class="btn btn-outline-danger btn-sm" (click)="removeFromCart(book.id,j)"> -->
+                                            <button class="btn btn-outline-danger btn-sm">
+                                                <!-- <fa-icon [icon]="['fas','plus-circle']"></fa-icon> -->
+                                                <span><small> remove</small></span>
+                                            </button>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col p-3 text-center">
+                            <button class="btn btn-outline-warning" (click)="sendRequest(item.books,item.user.id,i)">send request</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>

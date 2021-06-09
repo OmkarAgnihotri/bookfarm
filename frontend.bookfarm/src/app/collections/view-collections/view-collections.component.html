@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-primary m-3" role="alert">
+                <fa-icon [icon]="['fas','info-circle']" size = 'xl'></fa-icon><span>&nbsp;&nbsp;The books owned by you listed for selling / exchange are displayed here.</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col p-2">
+            <div class="card">
+                <div class="card-body p-5 text-center">
+                    <input type="text" class="form-control" placeholder="enter title or author" (keyup)='fetchCollection($event)'>
+                    <div class="pt-5" *ngIf="userID === loggedInUser">
+                        <button class="btn btn-info" [routerLink]="['/collections','add-new-books']"  >
+                            <fa-icon [icon]="['fas','plus-circle']"></fa-icon><span>    Add new book to collection</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-3 col-sm-4 col-6 p-2" *ngFor="let book of collection;let i=index">
+            <div class="card">
+                <img class="card-img-top" src="{{ book.img_src }}" style="border: 0px;max-height: 25vh;min-height: 25vh">
+                <div class="card-body p-1" style="min-height: 100px;">
+                  <p class="title">{{ book.title }}</p>
+                </div>
+                <div class="p-2 text-center w-100" *ngIf="userID !== loggedInUser">
+                    <button class="btn btn-outline-info btn-sm" (click)="addToCart(book.id,i)" *ngIf="!toggle[i]">add to cart</button>
+                    <fa-icon [icon]="['fas','check-circle']" size="2x" class="text-success" *ngIf="toggle[i]"></fa-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

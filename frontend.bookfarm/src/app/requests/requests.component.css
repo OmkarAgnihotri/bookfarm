@@ -1,0 +1,9 @@
+.title{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+ 
+    /* to specify the number of lines you want the text to run through... */
+    -webkit-line-clamp: 1;
+    /* hide the overflowing text, i.e, texts that did not fit in to the box */
+    overflow: hidden;
+}

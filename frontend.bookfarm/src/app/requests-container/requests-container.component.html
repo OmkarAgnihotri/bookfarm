@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            
+        <div class="alert alert-primary m-3" role="alert">
+            <fa-icon [icon]="['fas','info-circle']" size = 'xl'></fa-icon><span>&nbsp;&nbsp;All the requests for books that you sent or received are displayed here.</span>
+        </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 p-5">
+            <ul class="nav nav-pills nav-fill">
+                <li class="nav-item" >
+                <a class="nav-link" [routerLink]="['/requests','sent']"  routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">sent</a>
+                </li>
+                <li class="nav-item"  >
+                <a class="nav-link" [routerLink]="['/requests','received']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">received</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <router-outlet></router-outlet>
+</div>

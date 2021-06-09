@@ -1,0 +1,62 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-primary m-3" role="alert">
+                <fa-icon [icon]="['fas','info-circle']" size = 'xl'></fa-icon><span>&nbsp;&nbsp;Search for the book you want do add to your collection for selling / exchange.</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col p-2">
+            <div class="card">
+                <div class="card-body p-4 text-center">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="enter title or author" #searchstr>
+                    <div class="input-group-append">
+                        <button class="btn btn-info" (click)='fetchCollection(searchstr.value)'>
+                            <fa-icon [icon]="['fas','search-plus']"></fa-icon><span>  search</span>
+                        </button>
+                    </div>
+                  </div>
+                    <div class="pt-3">
+                        <button class="btn btn-info" [routerLink]="['/collections',user]"  >
+                            <fa-icon [icon]="['far','file-alt']"></fa-icon><span>    View My collection</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="isLoading">
+        <div class="col">
+            <div class="alert alert-warning m-3" role="alert">
+                <fa-icon [icon]="['fas','frown']" size = 'xl'></fa-icon><span>&nbsp;&nbsp;Your search results will be here in a short while ! We are sorry for the delay.</span>
+            </div>
+        </div>
+    </div>
+    <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+    <div class="row" *ngIf="!isLoading">
+        <div class="col-lg-2 col-md-3 col-sm-4 col-6 p-2" *ngFor="let book of collection;let i=index">
+            <div class="card">
+                <img class="card-img-top" src="{{ book.img_src }}" style="border: 0px;max-height: 25vh;min-height: 25vh">
+                <div class="card-body p-1" style="min-height: 100px;">
+                  <p class="title">{{ book.title }}</p>
+                </div>
+                <div class="p-2 text-center">
+                    <ng-template [ngIf]="!toggle[i]">
+                        <button class="btn btn-info" (click)="addToCollection(book.id,i)">
+                            <fa-icon [icon]="['fas','plus-circle']"></fa-icon>
+                            <span><small>  add</small></span>
+                        </button>
+                    </ng-template>
+                    <ng-template [ngIf]="toggle[i]">
+                        
+                            <fa-icon [icon]="['fas','check-circle']" size="2x" class="text-success"></fa-icon>
+                        
+                        
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
